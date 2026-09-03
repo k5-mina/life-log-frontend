@@ -1,0 +1,48 @@
+<p>騒音記録画面です。</p>
+
+<section class="app-noise-log-form">
+    <h2>騒音記録</h2>
+
+    <form>
+        <div class="form-row">
+            <label for="ocurrenceDate">発生日</label>
+            <input id="ocurrenceDate" type="date">
+            <span class="required">*</span>
+        </div>
+
+        <div class="form-row">
+            <label for="startTime">開始時刻</label>
+            <input id="startTime" type="time">
+            <span class="required">*</span>
+        </div>
+
+        <div class="form-row">
+            <label for="endTime">終了時刻</label>
+            <input id="endTime" type="time">
+        </div>
+
+        <div class="form-row">
+            <span class="form-label">騒音レベル</span>
+
+            <div class="stars">
+                <button type="button" (click)="selectNoiseLevel(1)">
+                    {{ noiseLevel >= 1 ? '★' : '☆'}}
+                </button>
+                <button type="button" (click)="selectNoiseLevel(2)">
+                    {{ noiseLevel >= 2 ? '★' : '☆'}}
+                </button>
+                <button type="button" (click)="selectNoiseLevel(3)">
+                    {{ noiseLevel >= 3 ? '★' : '☆'}}
+                </button>
+                <button type="button" (click)="selectNoiseLevel(4)">
+                    {{ noiseLevel >= 4 ? '★' : '☆'}}
+                </button>
+                <button type="button" (click)="selectNoiseLevel(5)">
+                    {{ noiseLevel >= 5 ? '★' : '☆'}}
+                </button>
+            </div>
+
+            <span class="required">*</span>
+        </div>
+    </form>
+</section>

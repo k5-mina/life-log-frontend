@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NoiseLogForm } from './features/noise-log/noise-log-form/noise-log-form';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ NoiseLogForm ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
