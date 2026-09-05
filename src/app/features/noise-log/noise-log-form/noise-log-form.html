@@ -3,22 +3,22 @@
 <section class="app-noise-log-form">
     <h2>騒音記録</h2>
 
-    <form>
+    <form [formGroup]="noiseLogForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
-            <label for="ocurrenceDate">発生日</label>
-            <input id="ocurrenceDate" type="date">
+            <label for="occurrenceDate">発生日</label>
+            <input id="occurrenceDate" type="date" formControlName="occurrenceDate">
             <span class="required">*</span>
         </div>
 
         <div class="form-row">
             <label for="startTime">開始時刻</label>
-            <input id="startTime" type="time">
+            <input id="startTime" type="time" formControlName="startTime">
             <span class="required">*</span>
         </div>
 
         <div class="form-row">
             <label for="endTime">終了時刻</label>
-            <input id="endTime" type="time">
+            <input id="endTime" type="time" formControlName="endTime">
         </div>
 
         <div class="form-row">
@@ -26,23 +26,46 @@
 
             <div class="stars">
                 <button type="button" (click)="selectNoiseLevel(1)">
-                    {{ noiseLevel >= 1 ? '★' : '☆'}}
+                    {{ noiseLogForm.controls.noiseLevel.value >= 1 ? '★' : '☆'}}
                 </button>
                 <button type="button" (click)="selectNoiseLevel(2)">
-                    {{ noiseLevel >= 2 ? '★' : '☆'}}
+                    {{ noiseLogForm.controls.noiseLevel.value >= 2 ? '★' : '☆'}}
                 </button>
                 <button type="button" (click)="selectNoiseLevel(3)">
-                    {{ noiseLevel >= 3 ? '★' : '☆'}}
+                    {{ noiseLogForm.controls.noiseLevel.value >= 3 ? '★' : '☆'}}
                 </button>
                 <button type="button" (click)="selectNoiseLevel(4)">
-                    {{ noiseLevel >= 4 ? '★' : '☆'}}
+                    {{ noiseLogForm.controls.noiseLevel.value >= 4 ? '★' : '☆'}}
                 </button>
                 <button type="button" (click)="selectNoiseLevel(5)">
-                    {{ noiseLevel >= 5 ? '★' : '☆'}}
+                    {{ noiseLogForm.controls.noiseLevel.value >= 5 ? '★' : '☆'}}
                 </button>
             </div>
 
             <span class="required">*</span>
+        </div>
+
+        <div class="form-row">
+            <label for="noiseType">音の種類</label>
+
+            <select id="noiseType" formControlName="noiseType">
+                <option value="">選択してください</option>
+                <option value="footstep">足音</option>
+                <option value="impact">衝撃音</option>
+                <option value="voice">話し声</option>
+                <option value="other">その他</option>
+            </select>
+
+            <span class="required">*</span>
+        </div>
+
+        <div class="form-row">
+            <label for="memo">備考</label>
+            <textarea id="memo" class="memo" maxlength="200" formControlName="memo"></textarea>
+        </div>
+
+        <div class="form-row">
+            <button type="submit">登録</button>
         </div>
     </form>
 </section>
