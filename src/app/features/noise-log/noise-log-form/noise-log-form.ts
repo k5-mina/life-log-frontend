@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
-  Validators } from '@angular/forms';
+  Validators,
+} from '@angular/forms';
+import { NoiseLog } from '../noise-log';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -14,34 +16,38 @@ import {
   templateUrl: './noise-log-form.html',
 })
 export class NoiseLogForm {
-  noiseLogForm = new FormGroup({
-    occurrenceDate: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    startTime: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    endTime: new FormControl('', {
-      nonNullable: true
-    }),
-    noiseLevel: new FormControl(0, {
-      nonNullable: true,
-      validators: Validators.min(1)
-    }),
-    noiseType: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    memo: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.maxLength(200)
-    })
-  },
-  {
-    validators: this.timeRangeValidator
-  });
+  private readonly noiseLogService = inject(NoiseLog);
+
+  noiseLogForm = new FormGroup(
+    {
+      occurrenceDate: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      startTime: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      endTime: new FormControl('', {
+        nonNullable: true,
+      }),
+      noiseLevel: new FormControl(0, {
+        nonNullable: true,
+        validators: Validators.min(1),
+      }),
+      noiseType: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      memo: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.maxLength(200),
+      }),
+    },
+    {
+      validators: this.timeRangeValidator,
+    },
+  );
 
   timeRangeValidator(control: AbstractControl): ValidationErrors | null {
     const startTime = control.get('startTime')?.value;
@@ -71,8 +77,14 @@ export class NoiseLogForm {
       return;
     }
 
-    console.log('フォーム全体：', this.noiseLogForm.value);
-    console.log('valid：', this.noiseLogForm.valid);
-    console.log('invalid：', this.noiseLogForm.invalid);
+    const formValue = this.noiseLogForm.getRawValue();
+    this.noiseLogService.register(formValue).subscribe({
+      next: (responce) => {
+        console.log('登録成功：', responce);
+      },
+      error: (error) => {
+        console.error('登録失敗：', error);
+      },
+    });
   }
 }
