@@ -7,10 +7,12 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+
 import { NoiseLog } from '../noise-log';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatButtonModule],
   selector: 'app-noise-log-form',
   styleUrl: './noise-log-form.scss',
   templateUrl: './noise-log-form.html',
@@ -69,6 +71,9 @@ export class NoiseLogForm {
     control.markAsTouched();
   }
 
+  /**
+   * フォームの入力内容をサービスに連携します。
+   */
   onSubmit(): void {
     // 全項目を触った状態にする
     this.noiseLogForm.markAllAsTouched();
@@ -86,5 +91,12 @@ export class NoiseLogForm {
         console.error('登録失敗：', error);
       },
     });
+  }
+
+  /**
+   * フォームの入力内容をクリアします。
+   */
+  clearForm(): void {
+    this.noiseLogForm.reset();
   }
 }

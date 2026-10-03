@@ -1,7 +1,7 @@
 .form-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    // display: flex;
+    // align-items: center;
+    // gap: 8px;
     margin-bottom: 35px;
 }
 
@@ -15,6 +15,12 @@
     width: 140px;
     height: 20px;
     box-sizing: border-box;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .required {
@@ -38,4 +44,10 @@
     width: 200px;
     height: 60px;
     resize: none;
+}
+
+.error-message {
+    display: block;
+    margin-left: 108px;
+    color: red;
 }
