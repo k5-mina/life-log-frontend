@@ -1,73 +1,74 @@
 .header-card {
-    background-color: #2e7d32;
-    color: white;
-    margin-bottom: 35px;
+  background-color: #4a6fa5;
+  color: white;
+  margin-bottom: 35px;
 }
 
 .page-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  gap: 8px;
 }
 
 .form-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 35px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 35px;
 }
 
 .form-row label,
 .form-label {
-    width: 100px;
-    text-align: right;
+  width: 100px;
+  text-align: right;
 }
 
 .form-label {
-    margin-top: 12px;
+  margin-top: 12px;
 }
 
 .form-row input {
-    width: 140px;
-    height: 20px;
-    box-sizing: border-box;
+  width: 140px;
+  height: 20px;
+  box-sizing: border-box;
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .input-area {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .required {
-    color: red;
+  color: red;
 }
 
 .stars {
-    display: flex;
-    gap: 4px;
+  display: flex;
+  gap: 4px;
 }
 
 .stars button {
-    border: none;
-    background: transparent;
-    padding: 0;
-    font-size: 24px;
-    cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .memo {
-    width: 200px;
-    height: 60px;
-    resize: none;
+  width: 200px;
+  height: 60px;
+  resize: none;
 }
 
 .error-message {
-    display: block;
-    color: red;
+  display: block;
+  color: red;
 }

@@ -9,12 +9,32 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatInputModule } from '@angular/material/input';
 import { NoiseLog } from '../noise-log';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateAdapter } from '../../../core/date/custom-date-adapter';
 
 @Component({
-  imports: [ReactiveFormsModule, MatButtonModule, MatCardModule, MatIconModule],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+  ],
+  providers: [
+    provideNativeDateAdapter(),
+    {
+      provide: DateAdapter,
+      useClass: CustomDateAdapter,
+    },
+  ],
   selector: 'app-noise-log-form',
   styleUrl: './noise-log-form.scss',
   templateUrl: './noise-log-form.html',
@@ -24,8 +44,7 @@ export class NoiseLogForm {
 
   noiseLogForm = new FormGroup(
     {
-      occurrenceDate: new FormControl('', {
-        nonNullable: true,
+      occurrenceDate: new FormControl<Date | null>(null, {
         validators: Validators.required,
       }),
       startTime: new FormControl('', {

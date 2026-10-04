@@ -1,146 +1,132 @@
 <section class="app-noise-log-form">
-    <mat-card class="header-card">
-        <div class="page-title">
-            <mat-icon>graphic_eq</mat-icon>
-            <h2>騒音記録</h2>
-        </div>
-    </mat-card>
+  <mat-card class="header-card">
+    <div class="page-title">
+      <mat-icon>graphic_eq</mat-icon>
+      <h2>騒音記録</h2>
+    </div>
+  </mat-card>
 
-    <form [formGroup]="noiseLogForm" (ngSubmit)="onSubmit()">
-        <div class="form-row">
-            <label for="occurrenceDate">発生日</label>
+  <form [formGroup]="noiseLogForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <label for="occurrenceDate">発生日</label>
 
-            <div class="field">
-                <div class="input-area">
-                    <input id="occurrenceDate" type="date" formControlName="occurrenceDate">
-                    <span class="required">*</span>
-                </div>
+      <div class="field">
+        <div class="input-area">
+          <mat-form-field>
+            <input
+              matInput
+              id="occurrenceDate"
+              [matDatepicker]="picker"
+              formControlName="occurrenceDate"
+            />
 
-                @if (
-                    noiseLogForm.controls.occurrenceDate.invalid &&
-                    noiseLogForm.controls.occurrenceDate.touched
-                ) {
-                    <span class="error-message">
-                        発生日を入力してください
-                    </span>
-                }
-            </div>
-        </div>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"> </mat-datepicker-toggle>
 
-        <div class="form-row">
-            <label for="startTime">開始時刻</label>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
 
-            <div class="field">
-                <div class="input-area">
-                    <input id="startTime" type="time" formControlName="startTime">
-                    <span class="required">*</span>
-                </div>
-
-
-                @if (
-                    noiseLogForm.controls.startTime.invalid &&
-                    noiseLogForm.controls.startTime.touched
-                ) {
-                    <span class="error-message">
-                        開始時刻を入力してください
-                    </span>
-                }
-            </div>
+          <span class="required">*</span>
         </div>
 
-        <div class="form-row">
-            <label for="endTime">終了時刻</label>
+        @if (
+          noiseLogForm.controls.occurrenceDate.invalid &&
+          noiseLogForm.controls.occurrenceDate.touched
+        ) {
+          <span class="error-message"> 発生日を入力してください </span>
+        }
+      </div>
+    </div>
 
-            <div class="field">
-                <input id="endTime" type="time" formControlName="endTime">
+    <div class="form-row">
+      <label for="startTime">開始時刻</label>
 
-                @if (noiseLogForm.hasError('invalidTimeRange')) {
-                    <span class="error-message">
-                        終了時刻は開始時刻より未来にしてください
-                    </span>
-                }
-            </div>
+      <div class="field">
+        <div class="input-area">
+          <input id="startTime" type="time" formControlName="startTime" />
+          <span class="required">*</span>
         </div>
 
-        <div class="form-row">
-            <span class="form-label">騒音レベル</span>
+        @if (noiseLogForm.controls.startTime.invalid && noiseLogForm.controls.startTime.touched) {
+          <span class="error-message"> 開始時刻を入力してください </span>
+        }
+      </div>
+    </div>
 
-            <div class="field">
-                <div class="input-area">
-                    <div class="stars">
-                        <button type="button" (click)="selectNoiseLevel(1)">
-                            {{ noiseLogForm.controls.noiseLevel.value >= 1 ? '★' : '☆'}}
-                        </button>
-                        <button type="button" (click)="selectNoiseLevel(2)">
-                            {{ noiseLogForm.controls.noiseLevel.value >= 2 ? '★' : '☆'}}
-                        </button>
-                        <button type="button" (click)="selectNoiseLevel(3)">
-                            {{ noiseLogForm.controls.noiseLevel.value >= 3 ? '★' : '☆'}}
-                        </button>
-                        <button type="button" (click)="selectNoiseLevel(4)">
-                            {{ noiseLogForm.controls.noiseLevel.value >= 4 ? '★' : '☆'}}
-                        </button>
-                        <button type="button" (click)="selectNoiseLevel(5)">
-                            {{ noiseLogForm.controls.noiseLevel.value >= 5 ? '★' : '☆'}}
-                        </button>
-                    </div>
+    <div class="form-row">
+      <label for="endTime">終了時刻</label>
 
-                    <span class="required">*</span>
-                </div>
+      <div class="field">
+        <input id="endTime" type="time" formControlName="endTime" />
 
-                @if (
-                    noiseLogForm.controls.noiseLevel.invalid &&
-                    noiseLogForm.controls.noiseLevel.touched
-                ) {
-                    <span class="error-message">
-                        騒音レベルを選択してください
-                    </span>
-                }
-            </div>
-        </div>
+        @if (noiseLogForm.hasError('invalidTimeRange')) {
+          <span class="error-message"> 終了時刻は開始時刻より未来にしてください </span>
+        }
+      </div>
+    </div>
 
-        <div class="form-row">
-            <label for="noiseType">音の種類</label>
+    <div class="form-row">
+      <span class="form-label">騒音レベル</span>
 
-            <div class="field">
-                <div class="input-area">
-                    <select id="noiseType" formControlName="noiseType">
-                        <option value="">選択してください</option>
-                        <option value="footstep">足音</option>
-                        <option value="impact">衝撃音</option>
-                        <option value="voice">話し声</option>
-                        <option value="other">その他</option>
-                    </select>
-
-                    <span class="required">*</span>
-                </div>
-
-                @if (
-                    noiseLogForm.controls.noiseType.invalid &&
-                    noiseLogForm.controls.noiseType.touched
-                ) {
-                    <span class="error-message">
-                        音の種類を入力してください
-                    </span>
-                }
-            </div>
-        </div>
-
-        <div class="form-row">
-            <label for="memo">備考</label>
-            <textarea id="memo" class="memo" maxlength="200" formControlName="memo"></textarea>
-        </div>
-
-        <div class="form-row">
-            <button matButton="filled" type="submit">
-                登録
+      <div class="field">
+        <div class="input-area">
+          <div class="stars">
+            <button type="button" (click)="selectNoiseLevel(1)">
+              {{ noiseLogForm.controls.noiseLevel.value >= 1 ? '★' : '☆' }}
             </button>
-
-            <button matButton="outlined"
-                type="button"
-                (click)="clearForm()">
-                クリア
+            <button type="button" (click)="selectNoiseLevel(2)">
+              {{ noiseLogForm.controls.noiseLevel.value >= 2 ? '★' : '☆' }}
             </button>
+            <button type="button" (click)="selectNoiseLevel(3)">
+              {{ noiseLogForm.controls.noiseLevel.value >= 3 ? '★' : '☆' }}
+            </button>
+            <button type="button" (click)="selectNoiseLevel(4)">
+              {{ noiseLogForm.controls.noiseLevel.value >= 4 ? '★' : '☆' }}
+            </button>
+            <button type="button" (click)="selectNoiseLevel(5)">
+              {{ noiseLogForm.controls.noiseLevel.value >= 5 ? '★' : '☆' }}
+            </button>
+          </div>
+
+          <span class="required">*</span>
         </div>
-    </form>
+
+        @if (noiseLogForm.controls.noiseLevel.invalid && noiseLogForm.controls.noiseLevel.touched) {
+          <span class="error-message"> 騒音レベルを選択してください </span>
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="noiseType">音の種類</label>
+
+      <div class="field">
+        <div class="input-area">
+          <select id="noiseType" formControlName="noiseType">
+            <option value="">選択してください</option>
+            <option value="footstep">足音</option>
+            <option value="impact">衝撃音</option>
+            <option value="voice">話し声</option>
+            <option value="other">その他</option>
+          </select>
+
+          <span class="required">*</span>
+        </div>
+
+        @if (noiseLogForm.controls.noiseType.invalid && noiseLogForm.controls.noiseType.touched) {
+          <span class="error-message"> 音の種類を入力してください </span>
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="memo">備考</label>
+      <textarea id="memo" class="memo" maxlength="200" formControlName="memo"></textarea>
+    </div>
+
+    <div class="form-row">
+      <button matButton="filled" type="submit" class="submit-button">登録</button>
+
+      <button matButton="outlined" type="button" (click)="clearForm()">クリア</button>
+    </div>
+  </form>
 </section>
