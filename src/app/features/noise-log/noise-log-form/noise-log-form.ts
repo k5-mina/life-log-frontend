@@ -8,11 +8,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NoiseLog } from '../noise-log';
 
 @Component({
-  imports: [ReactiveFormsModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatCardModule, MatIconModule],
   selector: 'app-noise-log-form',
   styleUrl: './noise-log-form.scss',
   templateUrl: './noise-log-form.html',

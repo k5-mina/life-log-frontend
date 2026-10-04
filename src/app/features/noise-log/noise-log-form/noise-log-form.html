@@ -1,5 +1,10 @@
 <section class="app-noise-log-form">
-    <h2>騒音記録</h2>
+    <mat-card class="header-card">
+        <div class="page-title">
+            <mat-icon>graphic_eq</mat-icon>
+            <h2>騒音記録</h2>
+        </div>
+    </mat-card>
 
     <form [formGroup]="noiseLogForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
@@ -127,11 +132,11 @@
         </div>
 
         <div class="form-row">
-            <button mat-flat-button type="submit">
+            <button matButton="filled" type="submit">
                 登録
             </button>
 
-            <button mat-stroked-button
+            <button matButton="outlined"
                 type="button"
                 (click)="clearForm()">
                 クリア
