@@ -12,18 +12,7 @@
 
       <div class="field">
         <div class="input-area">
-          <mat-form-field>
-            <input
-              matInput
-              id="occurrenceDate"
-              [matDatepicker]="picker"
-              formControlName="occurrenceDate"
-            />
-
-            <mat-datepicker-toggle matIconSuffix [for]="picker"> </mat-datepicker-toggle>
-
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+          <input id="occurrenceDate" type="date" formControlName="occurrenceDate" />
 
           <span class="required">*</span>
         </div>
