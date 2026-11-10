@@ -1,1 +1,15 @@
-<p>カレンダー</p>
+<section class="calendar">
+  <h2>{{ year }}年{{ month }}月</h2>
+
+  <div class="calendar-grid">
+    @for (weekday of ['日', '月', '火', '水', '木', '金', '土']; track $index) {
+      <div class="weekday">{{ weekday }}</div>
+    }
+
+    @for (day of days; track $index) {
+      <div class="day">
+        {{ day }}
+      </div>
+    }
+  </div>
+</section>
