@@ -1,9 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { NoiseLogForm } from './features/noise-log/noise-log-form/noise-log-form';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { Sidebar } from './layout/sidebar/sidebar';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [NoiseLogForm],
+  imports: [MatSidenavModule, Sidebar, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

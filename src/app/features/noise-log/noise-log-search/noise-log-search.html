@@ -1,0 +1,32 @@
+<table mat-table [dataSource]="noiseLogInfo">
+  <ng-container matColumnDef="column-occurrence-date">
+    <th mat-header-cell *matHeaderCellDef>発生日</th>
+    <td mat-cell *matCellDef="let noiseLog">
+      {{ noiseLog.occurrenceDate | date: 'yyyy/MM/dd' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="column-start-time">
+    <th mat-header-cell *matHeaderCellDef>開始時刻</th>
+    <td mat-cell *matCellDef="let noiseLog">
+      {{ noiseLog.startTime }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="column-noise-level">
+    <th mat-header-cell *matHeaderCellDef>騒音レベル</th>
+    <td mat-cell *matCellDef="let noiseLog">
+      {{ noiseLog.noiseLevel }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="column-noise-type">
+    <th mat-header-cell *matHeaderCellDef>騒音の種類</th>
+    <td mat-cell *matCellDef="let noiseLog">
+      {{ noiseLog.noiseType }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

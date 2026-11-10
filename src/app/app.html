@@ -1,4 +1,11 @@
-<h1>Life Log</h1>
-<p>生活記録アプリ</p>
+<mat-sidenav-container class="app-container">
+  <mat-sidenav mode="side" [opened]="true">
+    <app-sidebar />
+  </mat-sidenav>
 
-<app-noise-log-form></app-noise-log-form>
+  <mat-sidenav-content>
+    <main>
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

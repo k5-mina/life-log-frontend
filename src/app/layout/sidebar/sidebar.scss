@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+nav {
+  padding: 8px 16px;
+  background-color: green;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+mat-nav-list mat-icon {
+  color: white;
+}
+
+a[mat-list-item] {
+  margin-bottom: 16px;
+}
+
+.menus {
+  color: white;
+}
