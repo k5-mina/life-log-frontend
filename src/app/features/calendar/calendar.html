@@ -1,14 +1,30 @@
 <section class="calendar">
-  <h2>{{ year }}年{{ month }}月</h2>
+  <div class="calendar-header">
+    <span class="year-label">{{ year }}</span>
+    <span class="month-label">{{ month }}</span>
+  </div>
 
   <div class="calendar-grid">
-    @for (weekday of ['日', '月', '火', '水', '木', '金', '土']; track $index) {
+    @for (weekday of ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']; track $index) {
       <div class="weekday">{{ weekday }}</div>
     }
 
     @for (day of days; track $index) {
       <div class="day">
-        {{ day }}
+        @if (day !== null) {
+          <div class="day-header">
+            <span>{{ day }}</span>
+
+            <button
+              type="button"
+              class="add-button"
+              [attr.aria-label]="day + '日の記録を追加'"
+              (click)="openRegisterForm(day)"
+            >
+              +
+            </button>
+          </div>
+        }
       </div>
     }
   </div>

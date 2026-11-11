@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NoiseLog } from '../noise-log';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from '../../../core/date/custom-date-adapter';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   imports: [
@@ -39,8 +40,10 @@ import { CustomDateAdapter } from '../../../core/date/custom-date-adapter';
   styleUrl: './noise-log-form.scss',
   templateUrl: './noise-log-form.html',
 })
-export class NoiseLogForm {
+export class NoiseLogForm implements OnInit {
   private readonly noiseLogService = inject(NoiseLog);
+
+  private readonly route = inject(ActivatedRoute);
 
   noiseLogForm = new FormGroup(
     {
@@ -71,6 +74,18 @@ export class NoiseLogForm {
       validators: this.timeRangeValidator,
     },
   );
+
+  ngOnInit(): void {
+    const date = this.route.snapshot.queryParamMap.get('date');
+
+    if (date) {
+      const [year, month, day] = date.split('-').map(Number);
+
+      this.noiseLogForm.patchValue({
+        occurrenceDate: new Date(year, month - 1, day),
+      });
+    }
+  }
 
   timeRangeValidator(control: AbstractControl): ValidationErrors | null {
     const startTime = control.get('startTime')?.value;
@@ -105,10 +120,10 @@ export class NoiseLogForm {
 
     const formValue = this.noiseLogForm.getRawValue();
     this.noiseLogService.register(formValue).subscribe({
-      next: (responce) => {
-        console.log('登録成功：', responce);
+      next: (response: unknown) => {
+        console.log('登録成功：', response);
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('登録失敗：', error);
       },
     });

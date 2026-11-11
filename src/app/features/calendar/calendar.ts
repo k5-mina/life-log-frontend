@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { inject } from '@angular/core';
 
 @Component({
   imports: [],
@@ -7,6 +9,8 @@ import { Component } from '@angular/core';
   templateUrl: './calendar.html',
 })
 export class Calendar {
+  private readonly router = inject(Router);
+
   readonly currentDate = new Date();
 
   readonly year = this.currentDate.getFullYear();
@@ -27,9 +31,14 @@ export class Calendar {
       days.push(day);
     }
 
-    console.log('lastday:', lastDate);
-    console.log('days:', days);
-
     return days;
+  }
+
+  openRegisterForm(day: number): void {
+    const date = `${this.year}-${String(this.month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+    this.router.navigate(['register'], {
+      queryParams: { date },
+    });
   }
 }

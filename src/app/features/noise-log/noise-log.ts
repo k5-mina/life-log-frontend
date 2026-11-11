@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-@Service()
+@Injectable({
+  providedIn: 'root',
+})
 export class NoiseLog {
   private readonly http = inject(HttpClient);
 
