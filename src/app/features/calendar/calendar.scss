@@ -4,7 +4,7 @@
 
 .calendar-header {
   display: grid;
-  grid-template-columns: 70px 160px 70px;
+  grid-template-columns: 30px 200px 30px;
   align-items: end;
   column-gap: 16px;
   width: max-content;
@@ -12,11 +12,10 @@
 }
 
 .month-button {
-  width: 72px;
-  height: 72px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: none;
-  border-radius: 0;
   background: transparent;
   color: #333;
   font-size: 30px;
@@ -38,8 +37,9 @@
 
 .month-label {
   display: grid;
-  grid-template-columns: 100px 40px;
+  grid-template-columns: 120px 60px;
   align-items: end;
+  justify-items: center;
   column-gap: 8px;
 }
 
