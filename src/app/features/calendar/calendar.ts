@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatTooltipModule],
   selector: 'app-calendar',
   styleUrl: './calendar.scss',
   templateUrl: './calendar.html',
@@ -31,13 +32,18 @@ export class Calendar {
     const firstDay = new Date(this.year, this.month - 1, 1).getDay();
     const lastDate = new Date(this.year, this.month, 0).getDate();
 
-    // 日曜始まり（0）
-    const offset = firstDay;
+    // 月初より前の空白
+    const days: (number | null)[] = Array(firstDay).fill(null);
 
-    const days: (number | null)[] = Array(offset).fill(null);
-
+    // 当月の日付
     for (let day = 1; day <= lastDate; day++) {
       days.push(day);
+    }
+
+    // 月末より後の空白
+    const remaining = (7 - (days.length % 7)) % 7;
+    for (let i = 0; i < remaining; i++) {
+      days.push(null);
     }
 
     return days;

@@ -1,6 +1,12 @@
 <section class="calendar">
   <div class="calendar-header">
-    <button type="button" class="month-button" .aria-label="前月" (click)="previousMonth()">
+    <button
+      type="button"
+      class="month-button"
+      aria-label="前月"
+      matTooltip="前月へ"
+      (click)="previousMonth()"
+    >
       &lt;
     </button>
 
@@ -13,7 +19,13 @@
       </div>
     </div>
 
-    <button type="button" class="month-button" [attr.aria-label]="'翌月'" (click)="nextMonth()">
+    <button
+      type="button"
+      class="month-button"
+      aria-label="翌月"
+      matTooltip="翌月へ"
+      (click)="nextMonth()"
+    >
       &gt;
     </button>
   </div>
@@ -38,6 +50,7 @@
               type="button"
               class="add-button"
               [attr.aria-label]="day + '日の記録を追加'"
+              [matTooltip]="day + '日の記録を追加'"
               (click)="openRegisterForm(day)"
             >
               +
