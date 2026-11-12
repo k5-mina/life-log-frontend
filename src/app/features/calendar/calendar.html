@@ -56,6 +56,10 @@
               +
             </button>
           </div>
+
+          @if (day !== null && getRecordCount(day) > 0) {
+            <button type="button" class="record-marker">{{ getRecordCount(day) }}件の記録</button>
+          }
         }
       </div>
     }

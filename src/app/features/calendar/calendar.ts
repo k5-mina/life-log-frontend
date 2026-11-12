@@ -4,6 +4,11 @@ import { inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+interface CalendarRecordCount {
+  day: number;
+  count: number;
+}
+
 @Component({
   imports: [MatButtonModule, MatTooltipModule],
   selector: 'app-calendar',
@@ -27,6 +32,17 @@ export class Calendar {
   readonly todayYear = new Date().getFullYear();
   readonly todayMonth = new Date().getMonth() + 1;
   readonly todayDate = new Date().getDate();
+
+  recordCounts: CalendarRecordCount[] = [
+    { day: 3, count: 2 },
+    { day: 8, count: 1 },
+    { day: 12, count: 5 },
+    { day: 17, count: 4 },
+  ];
+
+  getRecordCount(day: number): number {
+    return this.recordCounts.find((record) => record.day === day)?.count ?? 0;
+  }
 
   private createCalendarDays(): (number | null)[] {
     const firstDay = new Date(this.year, this.month - 1, 1).getDay();
