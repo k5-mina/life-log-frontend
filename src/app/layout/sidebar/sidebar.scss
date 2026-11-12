@@ -14,10 +14,16 @@ mat-nav-list mat-icon {
   color: white;
 }
 
+.menu-title {
+  color: white;
+  padding: 16px;
+  margin-bottom: 4px;
+}
+
 a[mat-list-item] {
   margin-bottom: 32px;
 }
 
-.menus {
+.menu-name {
   color: white;
 }
