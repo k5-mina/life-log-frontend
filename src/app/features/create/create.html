@@ -1,0 +1,239 @@
+<section class="create">
+  <h1>新規登録</h1>
+
+  <form #entryForm="ngForm" (ngSubmit)="submit()">
+    <div class="form-row">
+      <label for="occurrence-date">発生日</label>
+      <input
+        class="date-input"
+        id="occurrence-date"
+        name="occurrence-date"
+        type="date"
+        [(ngModel)]="entry.occurrenceDate"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="occurrence-time">発生時刻</label>
+      <input
+        class="time-input"
+        id="occurrence-time"
+        name="occurrence-time"
+        type="time"
+        [(ngModel)]="entry.occurrenceTime"
+      />
+    </div>
+
+    <fieldset class="form-row button-row">
+      <legend>長さ</legend>
+
+      <div class="button-row-options">
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="0～5分未満"
+            [(ngModel)]="entry.durationCategory"
+          />
+          0～5分未満
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="5～10分未満"
+            [(ngModel)]="entry.durationCategory"
+          />
+          5～10分未満
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="10～15分未満"
+            [(ngModel)]="entry.durationCategory"
+          />
+          10～15分未満
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="15～20分未満"
+            [(ngModel)]="entry.durationCategory"
+          />
+          15～20分未満
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="20～25分未満"
+            [(ngModel)]="entry.durationCategory"
+          />
+          20～25分未満
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="25～30分未満"
+            [(ngModel)]="entry.durationCategory"
+          />
+          25～30分未満
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="30分以上"
+            [(ngModel)]="entry.durationCategory"
+          />
+          30分以上
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="duration-category"
+            value="不明"
+            [(ngModel)]="entry.durationCategory"
+          />
+          不明
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset class="form-row button-row">
+      <legend>発生源</legend>
+
+      <div class="button-row-options">
+        <label class="choice">
+          <input
+            type="radio"
+            name="occurrence-source"
+            value="上の部屋"
+            [(ngModel)]="entry.occurrenceSource"
+          />
+          上の部屋
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="occurrence-source"
+            value="隣の部屋"
+            [(ngModel)]="entry.occurrenceSource"
+          />
+          隣の部屋
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="occurrence-source"
+            value="同じ建物"
+            [(ngModel)]="entry.occurrenceSource"
+          />
+          同じ建物
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="occurrence-source"
+            value="近所"
+            [(ngModel)]="entry.occurrenceSource"
+          />
+          近所
+        </label>
+
+        <label class="choice">
+          <input
+            type="radio"
+            name="occurrence-source"
+            value="その他"
+            [(ngModel)]="entry.occurrenceSource"
+          />
+          その他
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="form-row">
+      <div class="field-label">騒音レベル</div>
+
+      <div
+        class="noise-meter"
+        role="slider"
+        tabindex="0"
+        aria-label="騒音レベル"
+        [attr.aria-valuemin]="1"
+        [attr.aria-valuemax]="5"
+        [attr.aria-valuenow]="entry.noiseLevel"
+        (keydown)="onNoiseLevelKeyDown($event)"
+      >
+        @for (level of [1, 2, 3, 4, 5]; track level) {
+          <button
+            type="button"
+            class="noise-segment"
+            [class.active]="level <= entry.noiseLevel"
+            [class.level-1]="level <= entry.noiseLevel && entry.noiseLevel === 1"
+            [class.level-2]="level <= entry.noiseLevel && entry.noiseLevel === 2"
+            [class.level-3]="level <= entry.noiseLevel && entry.noiseLevel === 3"
+            [class.level-4]="level <= entry.noiseLevel && entry.noiseLevel === 4"
+            [class.level-5]="level <= entry.noiseLevel && entry.noiseLevel === 5"
+            [attr.aria-label]="level + '段階'"
+            (click)="setNoiseLevel(level)"
+          ></button>
+        }
+      </div>
+
+      <span class="level-value">
+        @if (entry.noiseLevel === 1) {
+          少し気になる
+        } @else if (entry.noiseLevel === 2) {
+          まあまあうるさい
+        } @else if (entry.noiseLevel === 3) {
+          かなりうるさい
+        } @else if (entry.noiseLevel === 4) {
+          非情にうるさい
+        } @else if (entry.noiseLevel === 5) {
+          警察に通報
+        }
+      </span>
+    </div>
+
+    <fieldset class="form-row button-row">
+      <legend>音の種類</legend>
+
+      <div class="button-row-options">
+        @for (type of noiseTypeOptions; track type) {
+          <label class="choice">
+            <input
+              type="checkbox"
+              [checked]="entry.noiseTypes.indexOf(type) !== -1"
+              (change)="toggleNoiseType(type, $any($event.target).checked)"
+            />
+            {{ type }}
+          </label>
+        }
+      </div>
+    </fieldset>
+
+    <div class="form-row memo-row">
+      <label for="memo">備考</label>
+      <textarea id="memo" name="memo" rows="4" [(ngModel)]="entry.memo"> </textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-button">登録</button>
+    </div>
+  </form>
+</section>
