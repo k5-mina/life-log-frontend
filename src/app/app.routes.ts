@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './features/home/home';
 import { Calendar } from './features/calendar/calendar';
 import { Create } from './features/create/create';
-import { NoiseLogSearch } from './features/noise-log/noise-log-search/noise-log-search';
+import { Search } from './features/search/search';
 
 export const routes: Routes = [
   {
@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'search',
-    component: NoiseLogSearch,
+    component: Search,
   },
   {
     path: '',

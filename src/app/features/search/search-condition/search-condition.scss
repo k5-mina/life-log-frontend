@@ -1,0 +1,102 @@
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.search-conditions {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.search-row > label {
+  flex: 0 0 130px;
+  font-weight: bold;
+}
+
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-input {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid #b8c2bb;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+  font-size: 14px;
+
+  &:focus {
+    border-color: #668b78;
+    outline: 3px solid rgba(102, 139, 120, 0.18);
+  }
+}
+
+.button-row {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 0 146px;
+  border: 0;
+}
+
+.button-row legend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130px;
+  padding: 0;
+  font-weight: bold;
+}
+
+.button-row-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 16px;
+  min-width: 0;
+}
+
+.button-row-options .choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  white-space: nowrap;
+  font-weight: normal;
+}
+
+.button-row-options .choice input {
+  flex: 0 0 auto;
+  margin: 0;
+  accent-color: #668b78;
+}
+
+.search-actions {
+  text-align: right;
+}
+
+.search-button {
+  min-width: 100px;
+  padding: 9px 20px;
+  border: 0;
+  border-radius: 4px;
+  background: #4f806b;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
