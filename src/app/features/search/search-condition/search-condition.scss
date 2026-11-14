@@ -6,15 +6,13 @@
 
 .search-conditions {
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .search-row {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 16px;
+  margin: 48px auto;
 }
 
 .search-row > label {
@@ -53,15 +51,15 @@
   margin: 0;
   padding: 0 0 0 146px;
   border: 0;
-}
 
-.button-row legend {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 130px;
-  padding: 0;
-  font-weight: bold;
+  legend {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 130px;
+    padding: 0;
+    font-weight: bold;
+  }
 }
 
 .button-row-options {
@@ -69,21 +67,21 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px 16px;
   min-width: 0;
-}
 
-.button-row-options .choice {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0;
-  white-space: nowrap;
-  font-weight: normal;
-}
+  .choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    white-space: nowrap;
+    font-weight: normal;
 
-.button-row-options .choice input {
-  flex: 0 0 auto;
-  margin: 0;
-  accent-color: #668b78;
+    input {
+      flex: 0 0 auto;
+      margin: 0;
+      accent-color: #668b78;
+    }
+  }
 }
 
 .search-actions {

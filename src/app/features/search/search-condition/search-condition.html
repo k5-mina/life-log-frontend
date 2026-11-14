@@ -1,6 +1,6 @@
 <section class="search-condtion">
-  <form class="seach-form">
-    <div class="search-condtions">
+  <form class="search-form" [formGroup]="searchCondition">
+    <div class="search-conditions">
       <div class="search-row">
         <label for="date-from">発生日</label>
 
@@ -9,19 +9,12 @@
             class="date-input"
             id="date-from"
             type="date"
-            name="date-from"
-            [(ngModel)]="searchCondition.dateFrom"
+            formControlName="occurrenceDateFrom"
           />
 
           <span>～</span>
 
-          <input
-            class="date-input"
-            id="date-to"
-            type="date"
-            name="date-to"
-            [(ngModel)]="searchCondition.dateTo"
-          />
+          <input class="date-input" id="date-to" type="date" formControlName="occurrenceDateTo" />
         </div>
       </div>
 
@@ -29,45 +22,17 @@
         <legend>長さ</legend>
 
         <div class="button-row-options">
-          <label class="choice">
-            <input type="radio" name="duration-category" value="0～5分未満" />
-            0～5分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="5～10分未満" />
-            5～10分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="10～15分未満" />
-            10～15分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="15～20分未満" />
-            15～20分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="20～25分未満" />
-            20～25分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="25～30分未満" />
-            25～30分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="30分以上" />
-            30分以上
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="duration-category" value="不明" />
-            不明
-          </label>
+          @for (option of durationOptions; track option) {
+            <label class="choice">
+              <input
+                type="checkbox"
+                [value]="option"
+                [checked]="searchCondition.controls.durationCategoryes.value.includes(option)"
+                (change)="onDurationChange($event)"
+              />
+              {{ option }}
+            </label>
+          }
         </div>
       </div>
 
@@ -75,30 +40,17 @@
         <legend>発生源</legend>
 
         <div class="button-row-options">
-          <label class="choice">
-            <input type="radio" name="occurrence-source" value="上の部屋" />
-            上の部屋
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="occurrence-source" value="隣の部屋" />
-            隣の部屋
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="occurrence-source" value="同じ建物" />
-            同じ建物
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="occurrence-source" value="近所" />
-            近所
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="occurrence-source" value="その他" />
-            その他
-          </label>
+          @for (option of sourceOptions; track option) {
+            <label class="choice">
+              <input
+                type="checkbox"
+                [value]="option"
+                [checked]="searchCondition.controls.occurrenceSources.value.includes(option)"
+                (change)="onSourceChange($event)"
+              />
+              {{ option }}
+            </label>
+          }
         </div>
       </fieldset>
 
@@ -106,30 +58,17 @@
         <legend>騒音レベル</legend>
 
         <div class="button-row-options">
-          <label class="choice">
-            <input type="radio" name="noise-level" value="1" />
-            1
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-level" value="2" />
-            2
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-level" value="3" />
-            3
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-level" value="4" />
-            4
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-level" value="5" />
-            5
-          </label>
+          @for (option of noiseLevelOptions; track option) {
+            <label class="choice">
+              <input
+                type="checkbox"
+                [value]="option"
+                [checked]="searchCondition.controls.noiseLevels.value.includes(option)"
+                (change)="onNoiseLevelChange($event)"
+              />
+              {{ option }}
+            </label>
+          }
         </div>
       </fieldset>
 
@@ -137,30 +76,17 @@
         <legend>音の種類</legend>
 
         <div class="button-row-options">
-          <label class="choice">
-            <input type="radio" name="noise-types" value="足音" />
-            足音
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-types" value="衝撃音" />
-            衝撃音
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-types" value="物を引きずる音" />
-            物を引きずる音
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-types" value="話し声" />
-            話し声
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="noise-types" value="その他" />
-            その他
-          </label>
+          @for (option of soundTypeOptions; track option) {
+            <label class="choice">
+              <input
+                type="checkbox"
+                [value]="option"
+                [checked]="searchCondition.controls.soundTypes.value.includes(option)"
+                (change)="onSoundTypesChange($event)"
+              />
+              {{ option }}
+            </label>
+          }
         </div>
       </fieldset>
     </div>
