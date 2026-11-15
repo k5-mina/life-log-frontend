@@ -20,13 +20,15 @@
   font-weight: bold;
 }
 
-.date-range {
+.date-range,
+.time-range {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.date-input {
+.date-input,
+.time-input {
   box-sizing: border-box;
   max-width: 100%;
   min-height: 30px;

@@ -18,77 +18,70 @@
         </div>
       </div>
 
-      <div class="form-row button-row">
-        <legend>長さ</legend>
+      <div class="search-row">
+        <label for="time-from">発生時刻</label>
 
-        <div class="button-row-options">
-          @for (option of durationOptions; track option) {
-            <label class="choice">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.durationCategoryes.value.includes(option)"
-                (change)="onDurationChange($event)"
-              />
-              {{ option }}
-            </label>
-          }
+        <div class="time-range">
+          <input
+            class="time-input"
+            id="time-from"
+            type="time"
+            formControlName="occurrenceTimeFrom"
+          />
+
+          <span>～</span>
+
+          <input class="time-input" id="time-to" type="time" formControlName="occurrenceTimeTo" />
         </div>
       </div>
 
-      <fieldset class="form-row button-row">
+      <div class="form-row button-row">
+        <legend>長さ</legend>
+
+        <mat-chip-listbox multiple formControlName="durationCategories" aria-label="長さ">
+          @for (option of durationOptions; track option) {
+            <mat-chip-option [value]="option">
+              {{ option }}
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </div>
+
+      <div class="form-row button-row">
         <legend>発生源</legend>
 
-        <div class="button-row-options">
+        <mat-chip-listbox multiple formControlName="occurrenceSources" aria-label="発生源">
           @for (option of sourceOptions; track option) {
-            <label class="choice">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.occurrenceSources.value.includes(option)"
-                (change)="onSourceChange($event)"
-              />
+            <mat-chip-option [value]="option">
               {{ option }}
-            </label>
+            </mat-chip-option>
           }
-        </div>
-      </fieldset>
+        </mat-chip-listbox>
+      </div>
 
-      <fieldset class="form-row button-row">
+      <div class="form-row button-row">
         <legend>騒音レベル</legend>
 
-        <div class="button-row-options">
+        <mat-chip-listbox multiple formControlName="noiseLevels" aria-label="騒音レベル">
           @for (option of noiseLevelOptions; track option) {
-            <label class="choice">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.noiseLevels.value.includes(option)"
-                (change)="onNoiseLevelChange($event)"
-              />
+            <mat-chip-option [value]="option">
               {{ option }}
-            </label>
+            </mat-chip-option>
           }
-        </div>
-      </fieldset>
+        </mat-chip-listbox>
+      </div>
 
-      <fieldset class="form-row button-row">
+      <div class="form-row button-row">
         <legend>音の種類</legend>
 
-        <div class="button-row-options">
+        <mat-chip-listbox multiple formControlName="soundTypes" aria-label="音の種類">
           @for (option of soundTypeOptions; track option) {
-            <label class="choice">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.soundTypes.value.includes(option)"
-                (change)="onSoundTypesChange($event)"
-              />
+            <mat-chip-option [value]="option">
               {{ option }}
-            </label>
+            </mat-chip-option>
           }
-        </div>
-      </fieldset>
+        </mat-chip-listbox>
+      </div>
     </div>
 
     <div class="search-actions">
