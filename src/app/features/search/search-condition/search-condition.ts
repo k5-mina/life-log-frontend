@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -19,7 +19,10 @@ export class SearchCondition {
     soundTypes: new FormControl<string[]>([], { nonNullable: true }),
   });
 
-  // 長さ選択肢
+  // 検索条件部の表示状態を管理する変数
+  readonly isExpanded = signal(true);
+
+  // 継続時間選択肢
   readonly durationOptions = ['0～10分未満', '10～20分未満', '20～30分未満', '30分以上', '不明'];
   // 発生源選択肢
   readonly sourceOptions = ['上の部屋', '隣の部屋', '同じ建物', '近所', 'その他'];
@@ -27,6 +30,10 @@ export class SearchCondition {
   readonly noiseLevelOptions = [1, 2, 3, 4, 5];
   // 音の種類選択肢
   readonly soundTypeOptions = ['足音', '衝撃音', '物を引きずる音', '話し声', 'その他'];
+
+  toggleExpanded(): void {
+    this.isExpanded.update((value) => !value);
+  }
 
   onDurationChange(event: Event): void {
     const input = event.target as HTMLInputElement;

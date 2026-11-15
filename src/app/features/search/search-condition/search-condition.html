@@ -1,5 +1,23 @@
 <section class="search-condtion">
-  <form class="search-form" [formGroup]="searchCondition">
+  <button
+    type="button"
+    class="search-condition-toggle"
+    [attr.aria-expanded]="isExpanded()"
+    aria-controls="search-condtion-form"
+    (click)="toggleExpanded()"
+  >
+    <span>検索条件</span>
+    <span aria-hidden="true">
+      {{ isExpanded() ? '▲' : '▼' }}
+    </span>
+  </button>
+
+  <form
+    id="search-condition-form"
+    class="search-form"
+    [formGroup]="searchCondition"
+    [hidden]="!isExpanded()"
+  >
     <div class="search-conditions">
       <div class="date-time-row">
         <div class="search-row">
