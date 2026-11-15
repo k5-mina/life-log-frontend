@@ -1,135 +1,68 @@
 <section class="search-condtion">
-  <button
-    type="button"
-    class="search-condition-toggle"
-    [attr.aria-expanded]="isExpanded()"
-    aria-controls="search-condtion-form"
-    (click)="toggleExpanded()"
-  >
-    <span>検索条件</span>
-    <span aria-hidden="true">
-      {{ isExpanded() ? '▲' : '▼' }}
-    </span>
-  </button>
+  <mat-expansion-panel class="search-panel" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="panel-title"> 検索条件 </mat-panel-title>
+    </mat-expansion-panel-header>
 
-  <form
-    id="search-condition-form"
-    class="search-form"
-    [formGroup]="searchCondition"
-    [hidden]="!isExpanded()"
-  >
-    <div class="search-conditions">
-      <div class="date-time-row">
-        <div class="search-row">
-          <label for="date-from">発生日</label>
+    <form [formGroup]="searchCondition">
+      <div class="search-conditions">
+        <div class="date-time-row">
+          <div class="search-row">
+            <label for="date-from">発生日</label>
 
-          <div class="date-range">
-            <input
-              class="date-input"
-              id="date-from"
-              type="date"
-              formControlName="occurrenceDateFrom"
-            />
+            <div class="date-range">
+              <input
+                class="date-input"
+                id="date-from"
+                type="date"
+                formControlName="occurrenceDateFrom"
+              />
 
-            <span>～</span>
+              <span>～</span>
 
-            <input class="date-input" id="date-to" type="date" formControlName="occurrenceDateTo" />
+              <input
+                class="date-input"
+                id="date-to"
+                type="date"
+                formControlName="occurrenceDateTo"
+              />
+            </div>
+          </div>
+
+          <div class="search-row">
+            <label for="time-from">発生時刻</label>
+
+            <div class="time-range">
+              <input
+                class="time-input"
+                id="time-from"
+                type="time"
+                formControlName="occurrenceTimeFrom"
+              />
+
+              <span>～</span>
+
+              <input
+                class="time-input"
+                id="time-to"
+                type="time"
+                formControlName="occurrenceTimeTo"
+              />
+            </div>
           </div>
         </div>
 
-        <div class="search-row">
-          <label for="time-from">発生時刻</label>
+        <div class="form-row button-row">
+          <legend>長さ</legend>
 
-          <div class="time-range">
-            <input
-              class="time-input"
-              id="time-from"
-              type="time"
-              formControlName="occurrenceTimeFrom"
-            />
-
-            <span>～</span>
-
-            <input class="time-input" id="time-to" type="time" formControlName="occurrenceTimeTo" />
-          </div>
-        </div>
-      </div>
-
-      <div class="form-row button-row">
-        <legend>長さ</legend>
-
-        <div class="segments">
-          @for (option of durationOptions; track option) {
-            <label class="segment duration-segment">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.durationCategories.value.includes(option)"
-                (change)="onDurationChange($event)"
-              />
-              <span class="segment__label">
-                <span class="segment__check" aria-hidden="true"> ✓ </span>
-                {{ option }}
-              </span>
-            </label>
-          }
-        </div>
-      </div>
-
-      <fieldset class="form-row button-row">
-        <legend>発生源</legend>
-
-        <div class="segments">
-          @for (option of sourceOptions; track option) {
-            <label class="segment source-segment">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.occurrenceSources.value.includes(option)"
-                (change)="onSourceChange($event)"
-              />
-              <span class="segment__label">
-                <span class="segment__check" aria-hidden="true"> ✓ </span>
-                {{ option }}
-              </span>
-            </label>
-          }
-        </div>
-      </fieldset>
-
-      <fieldset class="form-row button-row">
-        <legend>騒音レベル</legend>
-
-        <div class="segments">
-          @for (option of noiseLevelOptions; track option) {
-            <label class="segment noise-level-segment">
-              <input
-                type="checkbox"
-                [value]="option"
-                [checked]="searchCondition.controls.noiseLevels.value.includes(option)"
-                (change)="onNoiseLevelChange($event)"
-              />
-              <span class="segment__label">
-                <span class="segment__check" aria-hidden="true"> ✓ </span>
-                {{ option }}
-              </span>
-            </label>
-          }
-        </div>
-      </fieldset>
-
-      <fieldset class="form-row button-row">
-        <legend>音の種類</legend>
-
-        <div class="sound-type-row">
           <div class="segments">
-            @for (option of soundTypeOptions; track option) {
-              <label class="segment sound-type-segment">
+            @for (option of durationOptions; track option) {
+              <label class="segment duration-segment">
                 <input
                   type="checkbox"
                   [value]="option"
-                  [checked]="searchCondition.controls.soundTypes.value.includes(option)"
-                  (change)="onSoundTypesChange($event)"
+                  [checked]="searchCondition.controls.durationCategories.value.includes(option)"
+                  (change)="onDurationChange($event)"
                 />
                 <span class="segment__label">
                   <span class="segment__check" aria-hidden="true"> ✓ </span>
@@ -138,13 +71,78 @@
               </label>
             }
           </div>
-
-          <div class="search-actions">
-            <button type="submit" class="search-condition-buttons search-button">検索</button>
-            <button type="button" class="search-condition-buttons clear-button">クリア</button>
-          </div>
         </div>
-      </fieldset>
-    </div>
-  </form>
+
+        <fieldset class="form-row button-row">
+          <legend>発生源</legend>
+
+          <div class="segments">
+            @for (option of sourceOptions; track option) {
+              <label class="segment source-segment">
+                <input
+                  type="checkbox"
+                  [value]="option"
+                  [checked]="searchCondition.controls.occurrenceSources.value.includes(option)"
+                  (change)="onSourceChange($event)"
+                />
+                <span class="segment__label">
+                  <span class="segment__check" aria-hidden="true"> ✓ </span>
+                  {{ option }}
+                </span>
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="form-row button-row">
+          <legend>騒音レベル</legend>
+
+          <div class="segments">
+            @for (option of noiseLevelOptions; track option) {
+              <label class="segment noise-level-segment">
+                <input
+                  type="checkbox"
+                  [value]="option"
+                  [checked]="searchCondition.controls.noiseLevels.value.includes(option)"
+                  (change)="onNoiseLevelChange($event)"
+                />
+                <span class="segment__label">
+                  <span class="segment__check" aria-hidden="true"> ✓ </span>
+                  {{ option }}
+                </span>
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="form-row button-row">
+          <legend>音の種類</legend>
+
+          <div class="sound-type-row">
+            <div class="segments">
+              @for (option of soundTypeOptions; track option) {
+                <label class="segment sound-type-segment">
+                  <input
+                    type="checkbox"
+                    [value]="option"
+                    [checked]="searchCondition.controls.soundTypes.value.includes(option)"
+                    (change)="onSoundTypesChange($event)"
+                  />
+                  <span class="segment__label">
+                    <span class="segment__check" aria-hidden="true"> ✓ </span>
+                    {{ option }}
+                  </span>
+                </label>
+              }
+            </div>
+
+            <div class="search-actions">
+              <button type="submit" class="search-condition-buttons search-button">検索</button>
+              <button type="button" class="search-condition-buttons clear-button">クリア</button>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </form>
+  </mat-expansion-panel>
 </section>

@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatExpansionModule],
   selector: 'app-search-condition',
   styleUrl: './search-condition.scss',
   templateUrl: './search-condition.html',
