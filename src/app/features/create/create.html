@@ -121,15 +121,15 @@
 
       <span class="level-value">
         @if (form.controls.noiseLevel.value === 1) {
-          少し気になる
+          {{ form.controls.noiseLevel.value }}：少し気になる
         } @else if (form.controls.noiseLevel.value === 2) {
-          まあまあ気になる
+          {{ form.controls.noiseLevel.value }}：まあまあ気になる
         } @else if (form.controls.noiseLevel.value === 3) {
-          うるさい
+          {{ form.controls.noiseLevel.value }}：うるさい
         } @else if (form.controls.noiseLevel.value === 4) {
-          非情にうるさい
+          {{ form.controls.noiseLevel.value }}：非情にうるさい
         } @else if (form.controls.noiseLevel.value === 5) {
-          爆音
+          {{ form.controls.noiseLevel.value }}：爆音
         }
       </span>
     </div>
