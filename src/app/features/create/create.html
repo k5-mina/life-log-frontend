@@ -2,60 +2,42 @@
   <h1>新規登録</h1>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
-    <div class="form-row">
-      <label for="occurrence-date">発生日</label>
-      <input class="date-input" id="occurrence-date" type="date" formControlName="occurrenceDate" />
-    </div>
+    <div class="date-time-row">
+      <div class="form-row">
+        <label for="occurrence-date">発生日</label>
+        <input
+          class="date-input"
+          id="occurrence-date"
+          type="date"
+          formControlName="occurrenceDate"
+        />
+      </div>
 
-    <div class="form-row">
-      <label for="occurrence-time">発生時刻</label>
-      <input class="time-input" id="occurrence-time" type="time" formControlName="occurrenceTime" />
+      <div class="form-row">
+        <label for="occurrence-time">発生時刻</label>
+        <input
+          class="time-input"
+          id="occurrence-time"
+          type="time"
+          formControlName="occurrenceTime"
+        />
+      </div>
     </div>
 
     <div class="form-row">
       <div class="field-label" id="duration-label">長さ</div>
 
       <fieldset class="button-row" aria-labelledby="duration-label">
-        <div class="button-row-options">
-          <label class="choice">
-            <input type="radio" value="0～5分未満" formControlName="durationCategory" />
-            0～5分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="5～10分未満" formControlName="durationCategory" />
-            5～10分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="10～15分未満" formControlName="durationCategory" />
-            10～15分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="15～20分未満" formControlName="durationCategory" />
-            15～20分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="20～25分未満" formControlName="durationCategory" />
-            20～25分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="25～30分未満" formControlName="durationCategory" />
-            25～30分未満
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="30分以上" formControlName="durationCategory" />
-            30分以上
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="不明" formControlName="durationCategory" />
-            不明
-          </label>
+        <div class="segments">
+          @for (option of durationOptions; track option) {
+            <label class="segment duration-segment">
+              <input type="radio" [value]="option" formControlName="durationCategory" />
+              <span class="segment__label">
+                <span class="segment__check" aria-hidden="true"> ◉ </span>
+                {{ option }}
+              </span>
+            </label>
+          }
         </div>
       </fieldset>
     </div>
@@ -64,31 +46,16 @@
       <div class="field-label" id="source-label">発生源</div>
 
       <fieldset class="button-row" aria-labelledby="source-label">
-        <div class="button-row-options">
-          <label class="choice">
-            <input type="radio" value="上の部屋" formControlName="occurrenceSource" />
-            上の部屋
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="隣の部屋" formControlName="occurrenceSource" />
-            隣の部屋
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="同じ建物" formControlName="occurrenceSource" />
-            同じ建物
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="近所" formControlName="occurrenceSource" />
-            近所
-          </label>
-
-          <label class="choice">
-            <input type="radio" value="その他" formControlName="occurrenceSource" />
-            その他
-          </label>
+        <div class="segments">
+          @for (option of sourceOptions; track option) {
+            <label class="segment source-segment">
+              <input type="radio" [value]="option" formControlName="occurrenceSource" />
+              <span class="segment__label">
+                <span class="segment__check" aria-hidden="true"> ◉ </span>
+                {{ option }}
+              </span>
+            </label>
+          }
         </div>
       </fieldset>
     </div>
@@ -96,57 +63,62 @@
     <div class="form-row">
       <div class="field-label">騒音レベル</div>
 
-      <div
-        class="noise-meter"
-        role="slider"
-        tabindex="0"
-        aria-label="騒音レベル"
-        aria-valuemin="1"
-        aria-valuemax="5"
-        [attr.aria-valuenow]="form.controls.noiseLevel.value || null"
-        [ngClass]="'level-' + form.controls.noiseLevel.value"
-        (keydown)="onNoiseLevelKeyDown($event)"
-      >
-        @for (level of [1, 2, 3, 4, 5]; track level) {
-          <button
-            type="button"
-            class="noise-segment"
-            tabindex="-1"
-            [class.active]="level <= form.controls.noiseLevel.value"
-            [attr.aria-label]="'騒音レベル ' + level"
-            (click)="setNoiseLevel(level)"
-          ></button>
-        }
-      </div>
+      <div class="noise-meter-row">
+        <div
+          class="noise-meter"
+          role="slider"
+          tabindex="0"
+          aria-label="騒音レベル"
+          aria-valuemin="1"
+          aria-valuemax="5"
+          [attr.aria-valuenow]="form.controls.noiseLevel.value || null"
+          [ngClass]="'level-' + form.controls.noiseLevel.value"
+          (keydown)="onNoiseLevelKeyDown($event)"
+        >
+          @for (level of [1, 2, 3, 4, 5]; track level) {
+            <button
+              type="button"
+              class="noise-segment"
+              tabindex="-1"
+              [class.active]="level <= form.controls.noiseLevel.value"
+              [attr.aria-label]="'騒音レベル ' + level"
+              (click)="setNoiseLevel(level)"
+            ></button>
+          }
+        </div>
 
-      <span class="level-value">
-        @if (form.controls.noiseLevel.value === 1) {
-          {{ form.controls.noiseLevel.value }}：少し気になる
-        } @else if (form.controls.noiseLevel.value === 2) {
-          {{ form.controls.noiseLevel.value }}：まあまあ気になる
-        } @else if (form.controls.noiseLevel.value === 3) {
-          {{ form.controls.noiseLevel.value }}：うるさい
-        } @else if (form.controls.noiseLevel.value === 4) {
-          {{ form.controls.noiseLevel.value }}：非情にうるさい
-        } @else if (form.controls.noiseLevel.value === 5) {
-          {{ form.controls.noiseLevel.value }}：爆音
-        }
-      </span>
+        <span class="level-value">
+          @if (form.controls.noiseLevel.value === 1) {
+            {{ form.controls.noiseLevel.value }}：少し気になる
+          } @else if (form.controls.noiseLevel.value === 2) {
+            {{ form.controls.noiseLevel.value }}：まあまあ気になる
+          } @else if (form.controls.noiseLevel.value === 3) {
+            {{ form.controls.noiseLevel.value }}：うるさい
+          } @else if (form.controls.noiseLevel.value === 4) {
+            {{ form.controls.noiseLevel.value }}：非情にうるさい
+          } @else if (form.controls.noiseLevel.value === 5) {
+            {{ form.controls.noiseLevel.value }}：爆音
+          }
+        </span>
+      </div>
     </div>
 
     <div class="form-row">
       <div class="field-label" id="type-label">音の種類</div>
 
       <fieldset class="button-row" aria-labelledby="type-label">
-        <div class="button-row-options">
-          @for (type of noiseTypeOptions; track type) {
-            <label class="choice">
+        <div class="segments">
+          @for (option of noiseTypeOptions; track option) {
+            <label class="segment sound-type-segment">
               <input
                 type="checkbox"
-                [checked]="form.controls.noiseTypes.value.indexOf(type) !== -1"
-                (change)="toggleNoiseType(type, $any($event.target).checked)"
+                [checked]="form.controls.noiseTypes.value.indexOf(option) !== -1"
+                (change)="toggleNoiseType(option, $any($event.target).checked)"
               />
-              {{ type }}
+              <span class="segment__label">
+                <span class="segment__check" aria-hidden="true"> ✓ </span>
+                {{ option }}
+              </span>
             </label>
           }
         </div>
@@ -155,7 +127,14 @@
 
     <div class="form-row memo-row">
       <label for="memo">備考</label>
-      <textarea id="memo" name="memo" rows="4" formControlName="memo"> </textarea>
+      <textarea
+        id="memo"
+        name="memo"
+        rows="4"
+        placeholder="気になったことを入力"
+        formControlName="memo"
+      >
+      </textarea>
     </div>
 
     <div class="form-actions">

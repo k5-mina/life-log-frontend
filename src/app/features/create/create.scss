@@ -3,22 +3,21 @@
 }
 
 h1 {
-  margin: 0 0 24px;
+  margin: 0 0 48px;
   font-size: 26px;
-  margin-bottom: 48px;
   user-select: none;
 }
 
 form {
   width: 100%;
-  max-width: 760px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .form-row {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 24px;
   user-select: none;
 }
@@ -26,8 +25,13 @@ form {
 .form-row > label:first-child,
 .form-row legend,
 .field-label {
-  flex: 0 0 130px;
   font-weight: bold;
+}
+
+.date-time-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
 }
 
 .date-input,
@@ -50,11 +54,11 @@ form {
 }
 
 .date-input {
-  width: 240px;
+  width: 360px;
 }
 
 .time-input {
-  width: 160px;
+  width: 240px;
 }
 
 .button-row {
@@ -65,33 +69,92 @@ form {
   border: 0;
 }
 
-.button-row-options {
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
-  column-gap: 16px;
-  row-gap: 12px;
+.segments {
+  display: flex;
+  gap: 8px;
+  width: 100%;
 }
 
-.button-row-options .choice {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0;
-  white-space: nowrap;
-  font-weight: normal;
+.segment {
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  &__label {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+
+    border: 1px solid #98a69d;
+    border-radius: 24px;
+    background-color: #fff;
+    user-select: none;
+  }
+
+  &__check {
+    position: absolute;
+    left: 14px;
+    display: none;
+    color: #426b58;
+    font-weight: bold;
+  }
+
+  input:checked + &__label {
+    background-color: #e2f0e8;
+    border-color: #76a48c;
+    border-width: 2px;
+    color: #426b58;
+  }
+
+  input[type='radio']:checked + &__label {
+    background-color: #c5dfd0;
+    border-color: #4f8066;
+    color: #315b46;
+  }
+
+  input:checked + &__label &__check {
+    display: inline;
+  }
+
+  input:focus-visible + &__label {
+    outline: 2px solid #426b58;
+    outline-offset: 2px;
+  }
 }
 
-.button-row-options .choice input {
-  flex: 0 0 auto;
-  margin: 0;
-  accent-color: #668b78;
+.duration-segment {
+  width: 172px;
+}
+
+.source-segment {
+  width: 126px;
+}
+
+.sound-type-segment {
+  width: 172px;
 }
 
 // 騒音レベル
+.noise-meter-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .noise-meter {
   display: flex;
   gap: 0;
-  width: 275px;
+  width: 400px;
 }
 
 .noise-segment {
@@ -142,7 +205,7 @@ form {
 .level-value {
   min-width: 55px;
   color: #666;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 // 備考
@@ -151,7 +214,6 @@ form {
 
   textarea {
     width: 100%;
-    max-width: 500px;
     min-height: 100px;
     box-sizing: border-box;
     resize: vertical;

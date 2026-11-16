@@ -19,7 +19,14 @@ export class Create {
     memo: new FormControl('', { nonNullable: true }),
   });
 
+  // 継続時間選択肢
+  readonly durationOptions = ['0～10分未満', '10～20分未満', '20～30分未満', '30分以上', '不明'];
+  // 発生源選択肢
+  readonly sourceOptions = ['上の部屋', '隣の部屋', '同じ建物', '近所', 'その他'];
+  // 騒音レベル選択肢
   readonly noiseTypeOptions = ['足音', '衝撃音', '物を引きずる音', '話し声', 'その他'];
+  // 音の種類選択肢
+  readonly soundTypeOptions = ['足音', '衝撃音', '物を引きずる音', '話し声', 'その他'];
 
   setNoiseLevel(level: number): void {
     this.form.controls.noiseLevel.setValue(level);
