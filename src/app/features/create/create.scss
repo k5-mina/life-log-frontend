@@ -22,10 +22,18 @@ form {
   user-select: none;
 }
 
-.form-row > label:first-child,
-.form-row legend,
-.field-label {
-  font-weight: bold;
+.form-label {
+  display: flex;
+  gap: 4px;
+
+  > div,
+  > label {
+    font-weight: bold;
+  }
+}
+
+.required {
+  color: #b54745;
 }
 
 .date-time-row {
@@ -114,7 +122,7 @@ form {
 
 .segments {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   width: 100%;
 }
 
@@ -188,19 +196,19 @@ form {
 }
 
 // 騒音レベル
-.noise-meter-row {
+.sound-meter-row {
   display: flex;
   align-items: center;
   gap: 24px;
 }
 
-.noise-meter {
+.sound-meter {
   display: flex;
   gap: 0;
   width: 400px;
 }
 
-.noise-segment {
+.sound-segment {
   flex: 1;
   height: 24px;
   padding: 0;
@@ -221,27 +229,27 @@ form {
   }
 }
 
-.noise-meter.level-1 .noise-segment.active {
+.sound-meter.level-1 .sound-segment.active {
   background: #8eaf91;
 }
 
-.noise-meter.level-2 .noise-segment.active {
+.sound-meter.level-2 .sound-segment.active {
   background: #aebd78;
 }
 
-.noise-meter.level-3 .noise-segment.active {
+.sound-meter.level-3 .sound-segment.active {
   background: #d2b76d;
 }
 
-.noise-meter.level-4 .noise-segment.active {
+.sound-meter.level-4 .sound-segment.active {
   background: #d69a68;
 }
 
-.noise-meter.level-5 .noise-segment.active {
+.sound-meter.level-5 .sound-segment.active {
   background: #c97c76;
 }
 
-.noise-segment:hover {
+.sound-segment:hover {
   filter: brightness(0.92);
 }
 
@@ -255,9 +263,14 @@ form {
 .memo-row {
   align-items: flex-start;
 
+  label {
+    font-weight: bold;
+  }
+
   textarea {
     width: 100%;
-    min-height: 100px;
+    min-height: 90px;
+    font-size: 16px;
     box-sizing: border-box;
     resize: vertical;
   }

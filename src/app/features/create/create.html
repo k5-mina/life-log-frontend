@@ -4,7 +4,10 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="date-time-row">
       <div class="form-row">
-        <label for="occurrence-date">発生日</label>
+        <div class="form-label">
+          <label for="occurrence-date">発生日</label>
+          <span class="required">*</span>
+        </div>
 
         <div class="date-input-area">
           <div class="date-control">
@@ -33,23 +36,38 @@
 
           @if (dateInvalid) {
             <div id="occurrence-date-error" class="error-message">日付として認識できません</div>
+          } @else if (
+            form.controls.occurrenceDate.invalid && form.controls.occurrenceDate.touched
+          ) {
+            <div class="error-message">発生日を入力してください</div>
           }
         </div>
       </div>
 
       <div class="form-row">
-        <label for="occurrence-time">発生時刻</label>
+        <div class="form-label">
+          <label for="occurrence-time">発生時刻</label>
+          <span class="required">*</span>
+        </div>
+
         <input
           class="time-input"
           id="occurrence-time"
           type="time"
           formControlName="occurrenceTime"
         />
+
+        @if (form.controls.occurrenceTime.invalid && form.controls.occurrenceTime.touched) {
+          <div class="error-message">発生時刻を入力してください</div>
+        }
       </div>
     </div>
 
     <div class="form-row">
-      <div class="field-label" id="duration-label">長さ</div>
+      <div class="form-label">
+        <div id="duration-label">継続時間</div>
+        <span class="required">*</span>
+      </div>
 
       <fieldset class="button-row" aria-labelledby="duration-label">
         <div class="segments">
@@ -64,10 +82,17 @@
           }
         </div>
       </fieldset>
+
+      @if (form.controls.durationCategory.invalid && form.controls.durationCategory.touched) {
+        <div class="error-message">長さを入力してください</div>
+      }
     </div>
 
     <div class="form-row">
-      <div class="field-label" id="source-label">発生源</div>
+      <div class="form-label">
+        <div id="source-label">発生源</div>
+        <span class="required">*</span>
+      </div>
 
       <fieldset class="button-row" aria-labelledby="source-label">
         <div class="segments">
@@ -82,62 +107,76 @@
           }
         </div>
       </fieldset>
+
+      @if (form.controls.occurrenceSource.invalid && form.controls.occurrenceSource.touched) {
+        <div class="error-message">発生源を入力してください</div>
+      }
     </div>
 
     <div class="form-row">
-      <div class="field-label">騒音レベル</div>
+      <div class="form-label">
+        <div class="field-label">音の大きさ</div>
+        <span class="required">*</span>
+      </div>
 
-      <div class="noise-meter-row">
+      <div class="sound-meter-row">
         <div
-          class="noise-meter"
+          class="sound-meter"
           role="slider"
           tabindex="0"
-          aria-label="騒音レベル"
+          aria-label="音の大きさ"
           aria-valuemin="1"
           aria-valuemax="5"
-          [attr.aria-valuenow]="form.controls.noiseLevel.value || null"
-          [ngClass]="'level-' + form.controls.noiseLevel.value"
-          (keydown)="onNoiseLevelKeyDown($event)"
+          [attr.aria-valuenow]="form.controls.soundLevel.value || null"
+          [ngClass]="'level-' + form.controls.soundLevel.value"
+          (keydown)="onSoundLevelKeyDown($event)"
         >
           @for (level of [1, 2, 3, 4, 5]; track level) {
             <button
               type="button"
-              class="noise-segment"
+              class="sound-segment"
               tabindex="-1"
-              [class.active]="level <= form.controls.noiseLevel.value"
-              [attr.aria-label]="'騒音レベル ' + level"
-              (click)="setNoiseLevel(level)"
+              [class.active]="level <= form.controls.soundLevel.value"
+              [attr.aria-label]="'音の大きさ ' + level"
+              (click)="setSoundLevel(level)"
             ></button>
           }
         </div>
 
         <span class="level-value">
-          @if (form.controls.noiseLevel.value === 1) {
-            {{ form.controls.noiseLevel.value }}：少し気になる
-          } @else if (form.controls.noiseLevel.value === 2) {
-            {{ form.controls.noiseLevel.value }}：まあまあ気になる
-          } @else if (form.controls.noiseLevel.value === 3) {
-            {{ form.controls.noiseLevel.value }}：うるさい
-          } @else if (form.controls.noiseLevel.value === 4) {
-            {{ form.controls.noiseLevel.value }}：非情にうるさい
-          } @else if (form.controls.noiseLevel.value === 5) {
-            {{ form.controls.noiseLevel.value }}：爆音
+          @if (form.controls.soundLevel.value === 1) {
+            とても小さい
+          } @else if (form.controls.soundLevel.value === 2) {
+            小さい
+          } @else if (form.controls.soundLevel.value === 3) {
+            中程度
+          } @else if (form.controls.soundLevel.value === 4) {
+            大きい
+          } @else if (form.controls.soundLevel.value === 5) {
+            とても大きい
           }
         </span>
       </div>
+
+      @if (form.controls.soundLevel.invalid && form.controls.soundLevel.touched) {
+        <div class="error-message">音の大きさを入力してください</div>
+      }
     </div>
 
     <div class="form-row">
-      <div class="field-label" id="type-label">音の種類</div>
+      <div class="form-label">
+        <div class="field-label" id="type-label">音の種類</div>
+        <span class="required">*</span>
+      </div>
 
       <fieldset class="button-row" aria-labelledby="type-label">
         <div class="segments">
-          @for (option of noiseTypeOptions; track option) {
+          @for (option of soundTypeOptions; track option) {
             <label class="segment sound-type-segment">
               <input
                 type="checkbox"
-                [checked]="form.controls.noiseTypes.value.indexOf(option) !== -1"
-                (change)="toggleNoiseType(option, $any($event.target).checked)"
+                [checked]="form.controls.soundTypes.value.indexOf(option) !== -1"
+                (change)="toggleSoundType(option, $any($event.target).checked)"
               />
               <span class="segment__label">
                 <span class="segment__check" aria-hidden="true"> ✓ </span>
@@ -147,6 +186,10 @@
           }
         </div>
       </fieldset>
+
+      @if (form.controls.soundTypes.invalid && form.controls.soundTypes.touched) {
+        <div class="error-message">音の種類を入力してください</div>
+      }
     </div>
 
     <div class="form-row memo-row">
@@ -155,10 +198,15 @@
         id="memo"
         name="memo"
         rows="4"
+        maxlength="200"
         placeholder="気になったことを入力"
         formControlName="memo"
       >
       </textarea>
+
+      @if (form.controls.memo.invalid) {
+        <div class="error-message">備考欄に入力できる文字数は200文字までです</div>
+      }
     </div>
 
     <div class="form-actions">

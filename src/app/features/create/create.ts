@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { CreateService } from './create-service';
 import { normalizedDate } from '../../shared/utils/date-utils/date-utils';
@@ -14,24 +14,44 @@ export class Create {
   private readonly noiseRecordService = inject(CreateService);
 
   form = new FormGroup({
-    occurrenceDate: new FormControl('', { nonNullable: true }),
-    occurrenceTime: new FormControl('', { nonNullable: true }),
-    durationCategory: new FormControl('', { nonNullable: true }),
-    occurrenceSource: new FormControl('', { nonNullable: true }),
-    noiseLevel: new FormControl(0, { nonNullable: true }),
-    noiseTypes: new FormControl<string[]>([], { nonNullable: true }),
-    memo: new FormControl('', { nonNullable: true }),
+    occurrenceDate: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    occurrenceTime: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    durationCategory: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    occurrenceSource: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    soundLevel: new FormControl(0, {
+      nonNullable: true,
+      validators: Validators.min(1),
+    }),
+    soundTypes: new FormControl<string[]>([], {
+      nonNullable: true,
+      validators: Validators.required,
+    }),
+    memo: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.maxLength(200),
+    }),
   });
 
   // 継続時間選択肢
   readonly durationOptions = ['0～10分未満', '10～20分未満', '20～30分未満', '30分以上', '不明'];
   // 発生源選択肢
   readonly sourceOptions = ['上の部屋', '隣の部屋', '同じ建物', '近所', 'その他'];
-  // 騒音レベル選択肢
-  readonly noiseTypeOptions = ['足音', '衝撃音', '物を引きずる音', '話し声', 'その他'];
   // 音の種類選択肢
   readonly soundTypeOptions = ['足音', '衝撃音', '物を引きずる音', '話し声', 'その他'];
 
+  // 日付項目に不正な値が入っているか判定するための変数
   dateInvalid = false;
 
   normalizeOccurrenceDate(): void {
@@ -73,29 +93,29 @@ export class Create {
     this.form.controls.occurrenceDate.setErrors(null);
   }
 
-  setNoiseLevel(level: number): void {
-    this.form.controls.noiseLevel.setValue(level);
+  setSoundLevel(level: number): void {
+    this.form.controls.soundLevel.setValue(level);
   }
 
-  onNoiseLevelKeyDown(event: KeyboardEvent): void {
-    const noiseLevel = this.form.controls.noiseLevel;
+  onSoundLevelKeyDown(event: KeyboardEvent): void {
+    const soundLevel = this.form.controls.soundLevel;
 
     if (event.key === 'ArrowRight') {
       event.preventDefault();
-      noiseLevel.setValue(Math.min(5, noiseLevel.value + 1));
+      soundLevel.setValue(Math.min(5, soundLevel.value + 1));
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      noiseLevel.setValue(Math.max(1, noiseLevel.value - 1));
+      soundLevel.setValue(Math.max(1, soundLevel.value - 1));
     }
   }
 
-  toggleNoiseType(type: string, checked: boolean): void {
-    const noiseTypes = this.form.controls.noiseTypes;
+  toggleSoundType(type: string, checked: boolean): void {
+    const soundTypes = this.form.controls.soundTypes;
 
-    if (checked && noiseTypes.value.indexOf(type) === -1) {
-      noiseTypes.setValue([...noiseTypes.value, type]);
+    if (checked && soundTypes.value.indexOf(type) === -1) {
+      soundTypes.setValue([...soundTypes.value, type]);
     } else if (!checked) {
-      noiseTypes.setValue(noiseTypes.value.filter((item) => item !== type));
+      soundTypes.setValue(soundTypes.value.filter((item) => item !== type));
     }
   }
 
