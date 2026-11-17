@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { CreateService } from './create-service';
+import { normalizedDate } from '../../shared/utils/date-utils/date-utils';
 
 @Component({
   imports: [ReactiveFormsModule, NgClass],
@@ -9,6 +11,8 @@ import { NgClass } from '@angular/common';
   templateUrl: './create.html',
 })
 export class Create {
+  private readonly noiseRecordService = inject(CreateService);
+
   form = new FormGroup({
     occurrenceDate: new FormControl('', { nonNullable: true }),
     occurrenceTime: new FormControl('', { nonNullable: true }),
@@ -32,7 +36,7 @@ export class Create {
 
   normalizeOccurrenceDate(): void {
     const control = this.form.controls.occurrenceDate;
-    const value = (control.value || '').trim();
+    const value = control.value;
 
     // 未入力はエラーにしない
     if (!value) {
@@ -41,62 +45,17 @@ export class Create {
       return;
     }
 
-    const match =
-      value.match(/^(\d{4})(\d{2})(\d{2})$/) ??
-      value.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/) ??
-      value.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    const normalized = normalizedDate(value);
 
-    if (!match) {
+    if (normalized === null) {
       this.dateInvalid = true;
       control.setErrors({ invalidDate: true });
       return;
     }
-
-    const year = Number(match[1]);
-    const month = Number(match[2]);
-    const day = Number(match[2]);
-
-    if (!this.isValidDate(year, month, day)) {
-      this.dateInvalid = true;
-      control.setErrors({ invalidDate: true });
-      return;
-    }
-
-    const normalized =
-      `${String(year).padStart(4, '0')}/` +
-      `${String(month).padStart(2, '0')}/` +
-      `${String(day).padStart(2, '0')}`;
 
     this.dateInvalid = false;
     control.setValue(normalized);
     control.setErrors(null);
-  }
-
-  private isValidDate(year: number, month: number, day: number): boolean {
-    if (month < 1 || month > 12 || day < 1) {
-      return false;
-    }
-
-    const dayInMonth = [
-      31,
-      this.isLeapYear(year) ? 29 : 28,
-      31,
-      30,
-      31,
-      30,
-      31,
-      31,
-      30,
-      31,
-      30,
-      31,
-    ];
-
-    return day <= dayInMonth[month - 1];
-  }
-
-  private isLeapYear(year: number): boolean {
-    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
   }
 
   onCalendarDateChange(event: Event): void {
@@ -140,7 +99,25 @@ export class Create {
     }
   }
 
+  /**
+   * フォームの入力内容をサービスに連携する
+   */
   submit(): void {
-    console.log('登録内容：', this.form.getRawValue());
+    // 全項目を触った状態にする
+    this.form.markAllAsTouched();
+    // ひとつでもバリデーション違反があれば処理を中断する
+    if (this.form.invalid) {
+      return;
+    }
+
+    const formValue = this.form.getRawValue();
+    this.noiseRecordService.register(formValue).subscribe({
+      next: (response: unknown) => {
+        console.log('登録成功', response);
+      },
+      error: (error: unknown) => {
+        console.log('登録失敗', error);
+      },
+    });
   }
 }
