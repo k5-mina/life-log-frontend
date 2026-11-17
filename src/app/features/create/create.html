@@ -5,12 +5,36 @@
     <div class="date-time-row">
       <div class="form-row">
         <label for="occurrence-date">発生日</label>
-        <input
-          class="date-input"
-          id="occurrence-date"
-          type="date"
-          formControlName="occurrenceDate"
-        />
+
+        <div class="date-input-area">
+          <div class="date-control">
+            <input
+              [class.date-invalid]="dateInvalid"
+              id="occurrence-date"
+              type="text"
+              placeholder="yyyy/MM/dd"
+              formControlName="occurrenceDate"
+              (blur)="normalizeOccurrenceDate()"
+              [attr.aria-label]="dateInvalid"
+              class="date-input"
+              aria-describedby="occurrence-date-error"
+            />
+
+            <span class="calendar-button material-symbols-outlined" aria-hidden="true">event</span>
+
+            <input
+              class="native-date-picker"
+              type="date"
+              tabindex="-1"
+              aria-label="カレンダーから発生日を選択"
+              (change)="onCalendarDateChange($event)"
+            />
+          </div>
+
+          @if (dateInvalid) {
+            <div id="occurrence-date-error" class="error-message">日付として認識できません</div>
+          }
+        </div>
       </div>
 
       <div class="form-row">

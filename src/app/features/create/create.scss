@@ -34,6 +34,17 @@ form {
   gap: 16px;
 }
 
+.date-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-control {
+  position: relative;
+  display: inline blick;
+}
+
 .date-input,
 .time-input {
   box-sizing: border-box;
@@ -55,6 +66,38 @@ form {
 
 .date-input {
   width: 360px;
+  padding-right: 42px;
+
+  &.date-invalid {
+    border: 1px solid #b54745;
+  }
+
+  &.date-invalid:focus {
+    border-color: #b54745;
+    outline-color: rgba(181, 71, 69, 0.18);
+  }
+}
+
+.calendar-button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.native-date-picker {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #b54745;
 }
 
 .time-input {
