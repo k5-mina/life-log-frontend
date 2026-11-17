@@ -131,7 +131,13 @@ export class Create {
     }
 
     const formValue = this.form.getRawValue();
-    this.noiseRecordService.register(formValue).subscribe({
+    const request = {
+      ...formValue,
+      occurrenceDate: formValue.occurrenceDate.replaceAll('/', '-'),
+      durationCategory: this.toDurationCategory(formValue.durationCategory),
+    };
+
+    this.noiseRecordService.register(request).subscribe({
       next: (response: unknown) => {
         console.log('登録成功', response);
       },
@@ -139,5 +145,19 @@ export class Create {
         console.log('登録失敗', error);
       },
     });
+  }
+
+  /**
+   * 継続時間の値をnumber型に変換する
+   */
+  private toDurationCategory(value: string): number {
+    const categories: Record<string, number> = {
+      '0～10分未満': 1,
+      '10～20分未満': 2,
+      '20～30分未満': 3,
+      '30分以上': 4,
+      不明: 5,
+    };
+    return categories[value];
   }
 }
