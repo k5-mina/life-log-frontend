@@ -1,13 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-interface CalendarRecordCount {
-  day: number;
-  count: number;
-}
+import { NoiseRecordService } from '../../core/services/noise-record-service';
+import { NoiseRecordCountResponse } from '../../models/noise-record-count-response.model';
 
 @Component({
   imports: [MatButtonModule, MatTooltipModule],
@@ -15,8 +12,11 @@ interface CalendarRecordCount {
   styleUrl: './calendar.scss',
   templateUrl: './calendar.html',
 })
-export class Calendar {
+export class Calendar implements OnInit {
+  private readonly noiseRecordService = inject(NoiseRecordService);
   private readonly router = inject(Router);
+
+  recordCounts = signal<NoiseRecordCountResponse[]>([]);
 
   readonly currentDate = new Date();
 
@@ -33,15 +33,30 @@ export class Calendar {
   readonly todayMonth = new Date().getMonth() + 1;
   readonly todayDate = new Date().getDate();
 
-  recordCounts: CalendarRecordCount[] = [
-    { day: 3, count: 2 },
-    { day: 8, count: 1 },
-    { day: 12, count: 5 },
-    { day: 17, count: 4 },
-  ];
+  ngOnInit(): void {
+    this.loadRecordCounts();
+  }
+
+  private loadRecordCounts(): void {
+    this.noiseRecordService.getRecordCount(this.year, this.month).subscribe({
+      next: (response) => {
+        console.time('件数取得');
+        this.recordCounts.set(response);
+
+        requestAnimationFrame(() => {
+          console.timeEnd('件数取得');
+        });
+      },
+      error: (error) => {
+        console.error('記録件数の取得に失敗しました', error);
+      },
+    });
+  }
 
   getRecordCount(day: number): number {
-    return this.recordCounts.find((record) => record.day === day)?.count ?? 0;
+    const date = `${this.year}-${String(this.month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+    return this.recordCounts().find((record) => record.occurrenceDate === date)?.count ?? 0;
   }
 
   private createCalendarDays(): (number | null)[] {
@@ -68,11 +83,13 @@ export class Calendar {
   previousMonth(): void {
     const date = new Date(this.year, this.month - 2, 1);
     this.setDisplayedMonth(date);
+    this.loadRecordCounts();
   }
 
   nextMonth(): void {
     const date = new Date(this.year, this.month, 1);
     this.setDisplayedMonth(date);
+    this.loadRecordCounts();
   }
 
   setDisplayedMonth(date: Date): void {
