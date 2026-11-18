@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
-import { CreateService } from './create-service';
+import { NoiseRecordService } from '../../core/services/noise-record-service';
 import { normalizedDate } from '../../shared/utils/date-utils/date-utils';
+import { NoiseRecordCreateRequest } from '../../models/noise-record-create-request.model';
 
 @Component({
   imports: [ReactiveFormsModule, NgClass],
@@ -11,7 +12,7 @@ import { normalizedDate } from '../../shared/utils/date-utils/date-utils';
   templateUrl: './create.html',
 })
 export class Create {
-  private readonly noiseRecordService = inject(CreateService);
+  private readonly noiseRecordService = inject(NoiseRecordService);
 
   form = new FormGroup({
     occurrenceDate: new FormControl('', {
@@ -131,10 +132,14 @@ export class Create {
     }
 
     const formValue = this.form.getRawValue();
-    const request = {
-      ...formValue,
+    const request: NoiseRecordCreateRequest = {
       occurrenceDate: formValue.occurrenceDate.replaceAll('/', '-'),
+      occurrenceTime: formValue.occurrenceTime,
       durationCategory: this.toDurationCategory(formValue.durationCategory),
+      occurrenceSource: formValue.occurrenceSource,
+      soundLevel: formValue.soundLevel,
+      soundTypes: formValue.soundTypes,
+      memo: formValue.memo,
     };
 
     this.noiseRecordService.register(request).subscribe({
