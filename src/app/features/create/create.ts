@@ -156,7 +156,7 @@ export class Create {
       '10～20分未満': 2,
       '20～30分未満': 3,
       '30分以上': 4,
-      不明: 5,
+      '不明': 5,
     };
     return categories[value];
   }
