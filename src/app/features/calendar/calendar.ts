@@ -81,21 +81,20 @@ export class Calendar implements OnInit {
   }
 
   previousMonth(): void {
-    const date = new Date(this.year, this.month - 2, 1);
-    this.setDisplayedMonth(date);
-    this.loadRecordCounts();
+    this.setDisplayedMonth(new Date(this.year, this.month - 2, 1));
   }
 
   nextMonth(): void {
-    const date = new Date(this.year, this.month, 1);
-    this.setDisplayedMonth(date);
-    this.loadRecordCounts();
+    this.setDisplayedMonth(new Date(this.year, this.month, 1));
   }
 
   setDisplayedMonth(date: Date): void {
     this.year = date.getFullYear();
     this.month = date.getMonth() + 1;
+
     this.updateCalendar();
+    this.recordCounts.set([]);
+    this.loadRecordCounts();
   }
 
   private updateCalendar(): void {
