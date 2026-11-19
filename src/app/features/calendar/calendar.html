@@ -1,37 +1,73 @@
 <section class="calendar">
-  <div class="calendar-header">
-    <button
-      type="button"
-      class="month-button"
-      aria-label="前月"
-      matTooltip="前月へ"
-      (click)="previousMonth()"
-    >
-      &lt;
-    </button>
+  <div class="calendar-navigation" #calendarNavigation>
+    <div class="calendar-header">
+      <button
+        type="button"
+        class="month-button"
+        aria-label="前月"
+        matTooltip="前月へ"
+        (click)="previousMonth()"
+      >
+        &lt;
+      </button>
 
-    <div class="year-month">
-      <div class="year-label">{{ year }}</div>
+      <button
+        type="button"
+        class="year-month"
+        matTooltip="年月を選択"
+        aria-label="年月を選択"
+        [attr.aria-label]="isYearMonthSelectorOpen()"
+        (click)="toggleYearMonthSeletor()"
+      >
+        <div class="year-label">{{ year }}</div>
 
-      <div class="month-label">
-        <div class="month-number">{{ month }}</div>
-        <div class="month-eng">{{ monthEng }}</div>
-      </div>
+        <div class="month-label">
+          <div class="month-number">{{ month }}</div>
+          <div class="month-eng">{{ monthEng }}</div>
+        </div>
+      </button>
+
+      <button
+        type="button"
+        class="month-button"
+        aria-label="翌月"
+        matTooltip="翌月へ"
+        (click)="nextMonth()"
+      >
+        &gt;
+      </button>
     </div>
 
-    <button
-      type="button"
-      class="month-button"
-      aria-label="翌月"
-      matTooltip="翌月へ"
-      (click)="nextMonth()"
-    >
-      &gt;
-    </button>
+    @if (isYearMonthSelectorOpen()) {
+      <div class="year-month-selector">
+        <div class="year-selector">
+          <button type="butoon" (click)="changeSelectedYear(-1)">-</button>
+          <span>{{ selectedYear }}年</span>
+          <button type="button" (click)="changeSelectedYear(1)">+</button>
+        </div>
+
+        <div class="month-selector">
+          @for (m of months; track m) {
+            <button
+              type="button"
+              [class.selected]="selectedMonth === m"
+              (click)="changeSelectedMonth(m)"
+            >
+              {{ m }}月
+            </button>
+          }
+        </div>
+
+        <div class="selector-actions">
+          <button type="button" (click)="closeYearMonthSelector()">キャンセル</button>
+          <button type="button" (click)="jumpToSelectedMonth()">移動する</button>
+        </div>
+      </div>
+    }
   </div>
 
   <div class="calendar-grid">
-    @for (weekday of ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.']; track $index) {
+    @for (weekday of ['日', '月', '火', '水', '木', '金', '土']; track $index) {
       <div class="weekday">{{ weekday }}</div>
     }
 
