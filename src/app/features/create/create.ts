@@ -1,6 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+
 import { NoiseRecordService } from '../../core/services/noise-record-service';
 import { normalizedDate } from '../../shared/utils/date-utils/date-utils';
 import { NoiseRecordCreateRequest } from '../../models/noise-record-create-request.model';
@@ -11,7 +13,8 @@ import { NoiseRecordCreateRequest } from '../../models/noise-record-create-reque
   styleUrl: './create.scss',
   templateUrl: './create.html',
 })
-export class Create {
+export class Create implements OnInit {
+  private readonly route = inject(ActivatedRoute);
   private readonly noiseRecordService = inject(NoiseRecordService);
 
   form = new FormGroup({
@@ -55,6 +58,20 @@ export class Create {
   // 日付項目に不正な値が入っているか判定するための変数
   dateInvalid = false;
 
+  ngOnInit(): void {
+    const date = this.route.snapshot.queryParamMap.get('date');
+
+    if (date) {
+      this.form.patchValue({
+        occurrenceDate: date,
+      });
+      this.normalizeOccurrenceDate();
+    }
+  }
+
+  /**
+   * 発生日の値をyyyy/MM/dd形式に補完する
+   */
   normalizeOccurrenceDate(): void {
     const control = this.form.controls.occurrenceDate;
     const value = control.value;
@@ -62,7 +79,7 @@ export class Create {
     // 未入力はエラーにしない
     if (!value) {
       this.dateInvalid = false;
-      control.setErrors(null);
+      control.updateValueAndValidity();
       return;
     }
 
@@ -79,6 +96,11 @@ export class Create {
     control.setErrors(null);
   }
 
+  /**
+   * カレンダーで選択した日付を発生日に設定する
+   *
+   * @param event
+   */
   onCalendarDateChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.value) {
@@ -94,10 +116,20 @@ export class Create {
     this.form.controls.occurrenceDate.setErrors(null);
   }
 
+  /**
+   * 音の大きさの選択内容を管理する
+   *
+   * @param level 選択した音の大きさ
+   */
   setSoundLevel(level: number): void {
     this.form.controls.soundLevel.setValue(level);
   }
 
+  /**
+   * キーボード操作時の音の大きさの変化を制御する
+   *
+   * @param event キーボード操作
+   */
   onSoundLevelKeyDown(event: KeyboardEvent): void {
     const soundLevel = this.form.controls.soundLevel;
 
@@ -110,6 +142,12 @@ export class Create {
     }
   }
 
+  /**
+   * 音の種類の選択内容を管理する
+   *
+   * @param type 選択した音の種類
+   * @param checked 音の種類のチェック状態
+   */
   toggleSoundType(type: string, checked: boolean): void {
     const soundTypes = this.form.controls.soundTypes;
 
