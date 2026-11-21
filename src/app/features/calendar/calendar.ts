@@ -211,10 +211,10 @@ export class Calendar implements OnInit {
    * 遷移後は押したボタンの日付を発生日の初期値として設定する
    * @param day 記録作成対象の日付
    */
-  openRegisterForm(day: number): void {
+  openCreateForm(day: number): void {
     const date = `${this.year}-${String(this.month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-    this.router.navigate(['register'], {
+    this.router.navigate(['create'], {
       queryParams: { date },
     });
   }
